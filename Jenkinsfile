@@ -30,7 +30,8 @@ pipeline {
                             sonarsource/sonar-scanner-cli \
                             -Dsonar.projectKey=sonarqube-demo \
                             -Dsonar.projectName=sonarqube-demo \
-                            -Dsonar.sources=/usr/src/app.py \
+                            -Dsonar.sources=. \
+                            -Dsonar.exclusions=venv/**,__pycache__/**,*.pyc \
                             -Dsonar.python.version=3.12
                         '''
                     }
