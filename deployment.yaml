@@ -17,9 +17,23 @@ spec:
         app: sonarqube-demo
 
     spec:
+      automountServiceAccountToken: false
+
       containers:
         - name: sonarqube-demo
           image: sonarqube-demo:1.0
+          imagePullPolicy: IfNotPresent
 
           ports:
             - containerPort: 5000
+
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+              ephemeral-storage: "100Mi"
+
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
+              ephemeral-storage: "500Mi"
