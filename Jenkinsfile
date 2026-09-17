@@ -82,7 +82,7 @@ pipeline {
 
                     docker run -d \
                         --name sonarqube-demo-test \
-                        -p 5001:5000 \
+                        --network devops-network \
                         sonarqube-demo:1.0
 
                     echo "Waiting for application to start..."
@@ -91,7 +91,7 @@ pipeline {
 
                     echo "Testing application..."
 
-                    curl -f http://localhost:5001/health
+                    curl -f http://sonarqube-demo-test:5000/health
 
                     echo ""
                     echo "Docker application test successful!"
