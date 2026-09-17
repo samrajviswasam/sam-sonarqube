@@ -16,8 +16,13 @@ pipeline {
                             echo "Checking project files..."
                             ls -la
 
+                            echo "Finding files in workspace..."
+                            find "$WORKSPACE" -maxdepth 2 -type f -print
+
                             echo "Checking SonarQube configuration..."
                             cat sonar-project.properties
+
+                            echo "Running SonarQube Scanner..."
 
                             docker run --rm \
                             --network devops-network \
