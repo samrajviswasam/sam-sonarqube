@@ -71,5 +71,39 @@ pipeline {
             }
         }
 
+        stage('Docker Run Test') {
+            steps {
+                sh '''
+                    echo "Removing old test container if it exists..."
+
+                    docker rm -f sonarqube-demo-test 2>/dev/null || true
+
+                    echo "Starting Docker container..."
+
+                    docker run -d \
+                        --name sonarqube-demo-test \
+                        -p 5001:5000 \
+                        sonarqube-demo:1.0
+
+                    echo "Waiting for application to start..."
+
+                    sleep 5
+
+                    echo "Testing application..."
+
+                    curl -f http://localhost:5001/health
+
+                    echo ""
+                    echo "Docker application test successful!"
+
+                    echo "Stopping test container..."
+
+                    docker rm -f sonarqube-demo-test
+
+                    echo "Docker Run Test completed successfully!"
+                '''
+            }
+        }
+
     }
 }
