@@ -105,5 +105,38 @@ pipeline {
             }
         }
 
+        stage('Kubernetes Deploy') {
+            steps {
+                sh '''
+                    echo "Checking Kubernetes..."
+
+                    kubectl version --client
+
+                    echo "Checking Minikube..."
+
+                    minikube status
+
+                    echo "Deploying application to Kubernetes..."
+
+                    kubectl apply -f deployment.yaml
+                    kubectl apply -f service.yaml
+
+                    echo "Kubernetes resources created successfully!"
+
+                    echo "Checking Deployment..."
+
+                    kubectl get deployment sonarqube-demo
+
+                    echo "Checking Pods..."
+
+                    kubectl get pods -l app=sonarqube-demo
+
+                    echo "Checking Service..."
+
+                    kubectl get service sonarqube-demo-service
+                '''
+            }
+        }
+
     }
 }
