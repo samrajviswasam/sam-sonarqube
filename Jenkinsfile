@@ -57,5 +57,19 @@ pipeline {
             }
         }
 
+        stage('Docker Build') {
+            steps {
+                sh '''
+                    echo "Building Docker image..."
+
+                    docker build -t sonarqube-demo:1.0 .
+
+                    echo "Docker image built successfully!"
+
+                    docker images | grep sonarqube-demo
+                '''
+            }
+        }
+
     }
 }
