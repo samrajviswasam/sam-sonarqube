@@ -13,7 +13,7 @@ pipeline {
                         )
                     ]) {
                         sh '''
-                            echo "Checking project files..."
+                            echo "Checking Jenkins workspace..."
                             ls -la
 
                             echo "Checking app.py..."
@@ -25,7 +25,7 @@ pipeline {
                             --network devops-network \
                             -e SONAR_HOST_URL="http://sonarqube:9000" \
                             -e SONAR_TOKEN="$SONAR_TOKEN" \
-                            -v "$WORKSPACE:/usr/src" \
+                            -v "/var/lib/docker/volumes/jenkins_home/_data/workspace/sonarqube-demo-pipeline:/usr/src" \
                             -w /usr/src \
                             sonarsource/sonar-scanner-cli \
                             -Dsonar.projectKey=sonarqube-demo \
