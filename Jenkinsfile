@@ -16,11 +16,8 @@ pipeline {
                             echo "Checking project files..."
                             ls -la
 
-                            echo "Finding files in workspace..."
-                            find "$WORKSPACE" -maxdepth 2 -type f -print
-
-                            echo "Checking SonarQube configuration..."
-                            cat sonar-project.properties
+                            echo "Checking app.py..."
+                            ls -l app.py
 
                             echo "Running SonarQube Scanner..."
 
@@ -33,8 +30,8 @@ pipeline {
                             sonarsource/sonar-scanner-cli \
                             -Dsonar.projectKey=sonarqube-demo \
                             -Dsonar.projectName=sonarqube-demo \
-                            -Dsonar.sources=. \
-                            -Dsonar.inclusions=app.py
+                            -Dsonar.sources=/usr/src/app.py \
+                            -Dsonar.python.version=3.12
                         '''
                     }
                 }
