@@ -13,11 +13,8 @@ pipeline {
                         )
                     ]) {
                         sh '''
-                            echo "Checking Jenkins workspace..."
+                            echo "Checking project files..."
                             ls -la
-
-                            echo "Checking app.py..."
-                            ls -l app.py
 
                             echo "Running SonarQube Scanner..."
 
@@ -35,6 +32,14 @@ pipeline {
                             -Dsonar.python.version=3.12
                         '''
                     }
+                }
+            }
+        }
+
+        stage('Quality Gate') {
+            steps {
+                timeout(time: 5, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
                 }
             }
         }
