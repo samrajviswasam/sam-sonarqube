@@ -29,7 +29,20 @@ pipeline {
                             -Dsonar.projectName=sonarqube-demo \
                             -Dsonar.sources=. \
                             -Dsonar.exclusions=venv/**,__pycache__/**,*.pyc \
-                            -Dsonar.python.version=3.12
+                            -Dsonar.python.version=3.12 \
+                            -Dsonar.working.directory=/usr/src/.scannerwork
+
+                            echo "Preparing SonarQube report for Jenkins..."
+
+                            if [ -f .scannerwork/report-task.txt ]; then
+                                cp .scannerwork/report-task.txt report-task.txt
+                                echo "report-task.txt created successfully"
+                            else
+                                echo "ERROR: report-task.txt was not created"
+                                exit 1
+                            fi
+
+                            ls -la report-task.txt
                         '''
                     }
                 }
