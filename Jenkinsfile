@@ -108,20 +108,18 @@ pipeline {
         stage('Kubernetes Deploy') {
             steps {
                 sh '''
-                    echo "Checking Kubernetes..."
+                    echo "Checking Kubernetes connection..."
 
                     kubectl version --client
 
-                    echo "Checking Minikube..."
+                    kubectl get nodes
 
-                    minikube status
-
-                    echo "Deploying application to Kubernetes..."
+                    echo "Deploying application..."
 
                     kubectl apply -f deployment.yaml
                     kubectl apply -f service.yaml
 
-                    echo "Kubernetes resources created successfully!"
+                    echo "Kubernetes deployment completed!"
 
                     echo "Checking Deployment..."
 
