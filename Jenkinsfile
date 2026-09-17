@@ -3,13 +3,6 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
-            steps {
-                git branch: 'master',
-                    url: 'https://github.com/samrajviswasam/sam-sonarqube.git'
-            }
-        }
-
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('SonarQube') {
@@ -20,13 +13,22 @@ pipeline {
                         )
                     ]) {
                         sh '''
+                            echo "Checking project files..."
+                            ls -la
+
+                            echo "Checking SonarQube configuration..."
+                            cat sonar-project.properties
+
                             docker run --rm \
                             --network devops-network \
                             -e SONAR_HOST_URL="http://sonarqube:9000" \
                             -e SONAR_TOKEN="$SONAR_TOKEN" \
                             -v "$WORKSPACE:/usr/src" \
                             -w /usr/src \
-                            sonarsource/sonar-scanner-cli
+                            sonarsource/sonar-scanner-cli \
+                            -Dsonar.projectKey=sonarqube-demo \
+                            -Dsonar.projectName=sonarqube-demo \
+                            -Dsonar.sources=.
                         '''
                     }
                 }
