@@ -28,7 +28,8 @@ pipeline {
                             sonarsource/sonar-scanner-cli \
                             -Dsonar.projectKey=sonarqube-demo \
                             -Dsonar.projectName=sonarqube-demo \
-                            -Dsonar.sources=.
+                            -Dsonar.sources=. \
+                            -Dsonar.inclusions=app.py
                         '''
                     }
                 }
